@@ -32,11 +32,15 @@ find_package(ZLIB REQUIRED)
 include_directories(${ZLIB_INCLUDE_DIRS})
 target_link_libraries(apngasm-cli ${ZLIB_LIBRARIES})
 
+find_package(PNG REQUIRED)
+include_directories(${PNG_INCLUDE_DIR})
+target_link_libraries(apngasm-cli ${PNG_LIBRARY})
+
 if (APPLE OR WIN32)
 	set(Boost_USE_STATIC_LIBS ON)
 endif ()
-find_package(Boost REQUIRED COMPONENTS program_options regex filesystem system) 
-include_directories(${Boost_INCLUDE_DIRS}) 
+find_package(Boost REQUIRED COMPONENTS program_options regex filesystem system)
+include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(apngasm-cli ${Boost_LIBRARIES})
 
 # Installation
@@ -44,9 +48,9 @@ install(TARGETS apngasm-cli DESTINATION "bin")
 
 # Create package command
 set(PACKAGE_DIR ${PROJECT_BINARY_DIR}/package)
-#get_property(INSTALL_APPS TARGET apngasm-cli PROPERTY LOCATION)
+set(APNGASM_BINARIES ${PROJECT_BINARY_DIR}/apngasm${CMAKE_EXECUTABLE_SUFFIX})
 
-if (WIN32)
+if (WIN32 AND NOT MINGW)
 	set(INSTALL_HEADERS
 		${PROJECT_SOURCE_DIR}/../lib/src/apngasm.h
 		${PROJECT_SOURCE_DIR}/../lib/src/apngframe.h
@@ -60,7 +64,7 @@ endif ()
 include(${PROJECT_BINARY_DIR}/../lib/manifest.txt)
 configure_file(${PROJECT_SOURCE_DIR}/package/CMakeLists.txt.in ${PACKAGE_DIR}/CMakeLists.txt @ONLY)
 
-if (UNIX OR APPLE)
+if (UNIX OR APPLE OR MINGW)
 	add_custom_target(
 		package-cli
 		COMMAND ${CMAKE_COMMAND} .
