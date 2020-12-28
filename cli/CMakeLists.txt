@@ -28,6 +28,14 @@ include_directories(
 )
 target_link_libraries(apngasm-cli apngasm)
 
+if (MSYS)
+	include_directories("/mingw64/include")
+	link_directories("/mingw64/lib")
+	set(PNG_ROOT "/mingw64")
+	set(ZLIB_ROOT "/mingw64")
+	set(Boost_ROOT "/mingw64")
+endif ()
+
 find_package(ZLIB REQUIRED)
 include_directories(${ZLIB_INCLUDE_DIRS})
 target_link_libraries(apngasm-cli ${ZLIB_LIBRARIES})

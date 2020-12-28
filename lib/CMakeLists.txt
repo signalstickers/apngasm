@@ -32,6 +32,14 @@ set(APNGASM_SOURCES
 	${PROJECT_SOURCE_DIR}/src/listener/apngasmlistener.cpp
 )
 
+if (MSYS)
+	include_directories("/mingw64/include")
+	link_directories("/mingw64/lib")
+	set(PNG_ROOT "/mingw64")
+	set(ZLIB_ROOT "/mingw64")
+	set(Boost_ROOT "/mingw64")
+endif ()
+
 # Add the dynamic/shared library
 set(APNGASM_DYNAMIC_LIB_TARGET apngasm)
 add_library(${APNGASM_DYNAMIC_LIB_TARGET} SHARED
