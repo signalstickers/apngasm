@@ -82,10 +82,43 @@ Building on OS-X (with homebrew):
 	Open up the dmg file and run the package installer. Next do the same the apngasm dmg in 
 	cli/packages.
   
-Building on Windows (with Visual Studio):  
-----------------------------------------------
-Please see detailed instructions 
-[here](https://github.com/apngasm/apngasm/blob/master/docs/building/win/instructions.md)
+Building on Windows (with Visual Studio):
+-----------------------------------------
+Unfortunately there are two issues with building on Windows:
+1. CMake for Windows does not seem to generate Visual Studio projects cleanly (interim targets 
+	are all generated as separate solutions).
+2. Newer versions of Visual Studio don't seem to be able to handle linking against libpng16 
+	very well and require a variety of tweaks and hacks.
+
+If anyone familiar newer versions of Visual Studio and CMake on Windows would be willing to 
+make any necessary adjustments or can provide instructions it would be much appreciated.
+
+Building on Windows (with MSYS2):  
+---------------------------------
+Building on Windows with MSYS2 is similar to building on Linux. The following packages are 
+necessary to build apngasm: 
+`cmake gcc zlib-devel zlib mingw-w64-x86_64-libpng mingw-w64-x86_64-boost`
+
+Step by step:
+1. Install dependencies/build chain  
+    ```sh
+	pacman -Sy cmake gcc zlib-devel zlib mingw-w64-x86_64-libpng mingw-w64-x86_64-boost
+	```
+2. Generate Makefiles with CMake  
+    ```sh
+    mkdir build;
+    cd build;
+    cmake ../
+    ```
+3. Make  
+    ```sh
+    make
+    ```
+4. Installing
+	To install, just do:
+    ```
+    make install
+	```
 
 Interfaces
 ----------

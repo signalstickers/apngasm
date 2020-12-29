@@ -64,9 +64,9 @@ if (WIN32 AND NOT MINGW)
 		${PROJECT_SOURCE_DIR}/../lib/src/apngframe.h
 		${PROJECT_SOURCE_DIR}/../lib/src/apngasm-conf.h
 		${PROJECT_BINARY_DIR}/../lib/src/apngasm-version.h)
-	get_property(INSTALL_LIBS TARGET apngasm PROPERTY LOCATION)
-	string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_APPS "${INSTALL_APPS}")
-	string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_LIBS "${INSTALL_LIBS}")
+	#get_property(INSTALL_LIBS TARGET apngasm PROPERTY LOCATION)
+	#string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_APPS "${INSTALL_APPS}")
+	#string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_LIBS "${INSTALL_LIBS}")
 endif ()
 
 include(${PROJECT_BINARY_DIR}/../lib/manifest.txt)
