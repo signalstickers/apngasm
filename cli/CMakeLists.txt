@@ -47,7 +47,7 @@ target_link_libraries(apngasm-cli ${PNG_LIBRARY})
 if (APPLE OR WIN32)
 	set(Boost_USE_STATIC_LIBS ON)
 endif ()
-find_package(Boost REQUIRED COMPONENTS program_options regex filesystem system)
+find_package(Boost REQUIRED COMPONENTS program_options regex system)
 include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(apngasm-cli ${Boost_LIBRARIES})
 

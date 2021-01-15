@@ -77,7 +77,7 @@ target_link_libraries(${APNGASM_STATIC_LIB_TARGET} ${ZLIB_LIBRARIES})
 if (APPLE OR WIN32)
 	set(Boost_USE_STATIC_LIBS ON)
 endif ()
-find_package(Boost REQUIRED COMPONENTS program_options regex filesystem system)
+find_package(Boost REQUIRED COMPONENTS program_options regex system)
 include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(${APNGASM_DYNAMIC_LIB_TARGET} ${Boost_LIBRARIES})
 target_link_libraries(${APNGASM_STATIC_LIB_TARGET} ${Boost_LIBRARIES})
@@ -90,9 +90,7 @@ set(APNGASM_LIBRARIES
 )
 
 # Installation
-install(
-	FILES
-		${APNGASM_HEADERS}
+install(FILES ${APNGASM_HEADERS}
 	DESTINATION "include"
 )
 if (NOT DEFINED LIB_INSTALL_DIR)

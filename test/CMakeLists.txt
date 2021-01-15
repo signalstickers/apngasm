@@ -22,8 +22,7 @@ include_directories(
 )
 target_link_libraries(apngasm-test apngasm)
 
-add_test(
-	NAME apngasm-test
+add_test(NAME apngasm-test
 	COMMAND apngasm-test
 )
 
