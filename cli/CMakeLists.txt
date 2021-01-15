@@ -13,27 +13,30 @@ include_directories(${PROJECT_BINARY_DIR}/src)
 
 # Generate executable file
 add_executable(apngasm-cli
-	${PROJECT_SOURCE_DIR}/src/apngasm-cli.cpp
-	${PROJECT_SOURCE_DIR}/src/options.cpp
-	${PROJECT_SOURCE_DIR}/src/cli.cpp
+    ${PROJECT_SOURCE_DIR}/src/apngasm-cli.cpp
+    ${PROJECT_SOURCE_DIR}/src/options.cpp
+    ${PROJECT_SOURCE_DIR}/src/cli.cpp
 )
 set_target_properties(apngasm-cli
-	PROPERTIES OUTPUT_NAME apngasm)
+    PROPERTIES 
+	OUTPUT_NAME apngasm
+	CXX_STANDARD 17
+)
 
 # Link libraries
 link_directories(${PROJECT_BINARY_DIR}/../lib)
 include_directories(
-	${PROJECT_SOURCE_DIR}/../lib/src
-	${PROJECT_BINARY_DIR}/../lib/src
+    ${PROJECT_SOURCE_DIR}/../lib/src
+    ${PROJECT_BINARY_DIR}/../lib/src
 )
 target_link_libraries(apngasm-cli apngasm)
 
 if (MSYS)
-	include_directories("/mingw64/include")
-	link_directories("/mingw64/lib")
-	set(PNG_ROOT "/mingw64")
-	set(ZLIB_ROOT "/mingw64")
-	set(Boost_ROOT "/mingw64")
+    include_directories("/mingw64/include")
+    link_directories("/mingw64/lib")
+    set(PNG_ROOT "/mingw64")
+    set(ZLIB_ROOT "/mingw64")
+    set(Boost_ROOT "/mingw64")
 endif ()
 
 find_package(ZLIB REQUIRED)
@@ -45,7 +48,7 @@ include_directories(${PNG_INCLUDE_DIR})
 target_link_libraries(apngasm-cli ${PNG_LIBRARY})
 
 if (APPLE OR WIN32)
-	set(Boost_USE_STATIC_LIBS ON)
+    set(Boost_USE_STATIC_LIBS ON)
 endif ()
 find_package(Boost REQUIRED COMPONENTS program_options regex system)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -59,25 +62,25 @@ set(PACKAGE_DIR ${PROJECT_BINARY_DIR}/package)
 set(APNGASM_BINARIES ${PROJECT_BINARY_DIR}/apngasm${CMAKE_EXECUTABLE_SUFFIX})
 
 if (WIN32 AND NOT MINGW)
-	set(INSTALL_HEADERS
-		${PROJECT_SOURCE_DIR}/../lib/src/apngasm.h
-		${PROJECT_SOURCE_DIR}/../lib/src/apngframe.h
-		${PROJECT_SOURCE_DIR}/../lib/src/apngasm-conf.h
-		${PROJECT_BINARY_DIR}/../lib/src/apngasm-version.h)
-	#get_property(INSTALL_LIBS TARGET apngasm PROPERTY LOCATION)
-	#string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_APPS "${INSTALL_APPS}")
-	#string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_LIBS "${INSTALL_LIBS}")
+    set(INSTALL_HEADERS
+        ${PROJECT_SOURCE_DIR}/../lib/src/apngasm.h
+        ${PROJECT_SOURCE_DIR}/../lib/src/apngframe.h
+        ${PROJECT_SOURCE_DIR}/../lib/src/apngasm-conf.h
+        ${PROJECT_BINARY_DIR}/../lib/src/apngasm-version.h)
+    #get_property(INSTALL_LIBS TARGET apngasm PROPERTY LOCATION)
+    #string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_APPS "${INSTALL_APPS}")
+    #string(REPLACE "$(Configuration)" "\\\${CMAKE_INSTALL_CONFIG_NAME}" INSTALL_LIBS "${INSTALL_LIBS}")
 endif ()
 
 include(${PROJECT_BINARY_DIR}/../lib/manifest.txt)
 configure_file(${PROJECT_SOURCE_DIR}/package/CMakeLists.txt.in ${PACKAGE_DIR}/CMakeLists.txt @ONLY)
 
 if (UNIX OR APPLE OR MINGW)
-	add_custom_target(
-		package-cli
-		COMMAND ${CMAKE_COMMAND} .
-		COMMAND ${CMAKE_MAKE_PROGRAM} package
-		WORKING_DIRECTORY ${PACKAGE_DIR}
-	)
-	install(FILES ${PROJECT_SOURCE_DIR}/../docs/man/apngasm.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man1)
+    add_custom_target(
+        package-cli
+        COMMAND ${CMAKE_COMMAND} .
+        COMMAND ${CMAKE_MAKE_PROGRAM} package
+        WORKING_DIRECTORY ${PACKAGE_DIR}
+    )
+    install(FILES ${PROJECT_SOURCE_DIR}/../docs/man/apngasm.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man1)
 endif ()

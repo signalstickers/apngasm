@@ -12,7 +12,9 @@ add_executable(apngasm-test
 )
 
 set_target_properties(apngasm-test
-	PROPERTIES OUTPUT_NAME apngtest
+	PROPERTIES
+	OUTPUT_NAME apngtest
+	CXX_STANDARD 17
 )
 
 link_directories(${PROJECT_BINARY_DIR}/../lib)
